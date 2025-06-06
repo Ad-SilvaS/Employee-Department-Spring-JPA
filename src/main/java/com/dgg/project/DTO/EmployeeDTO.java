@@ -15,7 +15,7 @@ public class EmployeeDTO {
     @NotBlank
     private String phone;
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @NotNull
     private Integer departmentId;
