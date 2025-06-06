@@ -21,7 +21,7 @@ public class EmployeeService {
         this.depRepo = depRepo;
     }
 
-    public EmployeeDTO convertToDTO(Employee emp) {
+    private EmployeeDTO convertToDTO(Employee emp) {
         return new EmployeeDTO(
                 emp.getName(),
                 emp.getEmail(),
