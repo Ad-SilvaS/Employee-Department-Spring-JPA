@@ -1,5 +1,8 @@
 package com.dgg.project.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +46,10 @@ public class EmployeeService {
                 department);
 
         return empRepo.save(emp);
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeDTO> findAll() {
+        return empRepo.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 }
