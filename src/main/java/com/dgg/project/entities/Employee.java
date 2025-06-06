@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,15 +30,19 @@ public class Employee {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
+    @ManyToOne
+    private Department department;
+
     public Employee() {
     }
 
     public Employee(@NotBlank String name, @NotBlank String email, @NotNull String phone,
-            @NotNull LocalDate birthDate) {
+            @NotNull LocalDate birthDate, Department department) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birthDate = birthDate;
+        this.department = department;
     }
 
     public Long getId() {
@@ -78,6 +83,14 @@ public class Employee {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override
