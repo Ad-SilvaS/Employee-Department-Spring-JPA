@@ -1,11 +1,15 @@
 package com.dgg.project.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dgg.project.DTO.EmployeeDTO;
+import com.dgg.project.entities.Department;
 import com.dgg.project.entities.Employee;
 import com.dgg.project.repositories.DepartmentRepository;
 import com.dgg.project.repositories.EmployeeRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -24,5 +28,20 @@ public class EmployeeService {
                 emp.getPhone(),
                 emp.getBirthDate(),
                 emp.getDepartment().getId());
+    }
+
+    @Transactional
+    public Employee newEmployee(EmployeeDTO empDTO) {
+        Department department = depRepo.findById(empDTO.getDepartmentId())
+                .orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+
+        Employee emp = new Employee(
+                empDTO.getName(),
+                empDTO.getEmail(),
+                empDTO.getPhone(),
+                empDTO.getBirthDate(),
+                department);
+
+        return empRepo.save(emp);
     }
 }
