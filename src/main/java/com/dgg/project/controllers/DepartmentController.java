@@ -1,5 +1,8 @@
 package com.dgg.project.controllers;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +26,10 @@ public class DepartmentController {
     @PostMapping
     public Department newDepartment(@Valid @RequestBody DepartmentDTO depDTO) {
         return service.newDepartment(depDTO);
+    }
+
+    @GetMapping
+    public List<DepartmentDTO> findAll() {
+        return service.findAll();
     }
 }
