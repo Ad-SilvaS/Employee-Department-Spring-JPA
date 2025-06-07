@@ -78,4 +78,13 @@ public class EmployeeService {
 
         return convertToDTO(emp);
     }
+
+    @Transactional
+    public EmployeeDTO updateEmail(Long id, String email) {
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+
+        emp.setEmail(email);
+
+        return convertToDTO(emp);
+    }
 }

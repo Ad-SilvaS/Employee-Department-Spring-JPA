@@ -55,4 +55,9 @@ public class EmployeeController {
     public EmployeeDTO updateName(@PathVariable Long id, @RequestParam String name) {
         return service.updateName(id, name);
     }
+
+    @PutMapping("/{id}/update-email")
+    public EmployeeDTO updateEmail(@PathVariable Long id, @RequestParam String email) {
+        return service.updateEmail(id, email);
+    }
 }
