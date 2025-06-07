@@ -52,4 +52,10 @@ public class EmployeeService {
     public List<EmployeeDTO> findAll() {
         return empRepo.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
+
+    public EmployeeDTO findById(Long id) {
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+
+        return convertToDTO(emp);
+    }
 }
