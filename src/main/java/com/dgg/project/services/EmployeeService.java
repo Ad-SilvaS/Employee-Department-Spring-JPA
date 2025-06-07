@@ -25,6 +25,7 @@ public class EmployeeService {
 
     private EmployeeDTO convertToDTO(Employee emp) {
         return new EmployeeDTO(
+                emp.getId(),
                 emp.getName(),
                 emp.getEmail(),
                 emp.getPhone(),
@@ -62,5 +63,9 @@ public class EmployeeService {
     @Transactional(readOnly = true)
     public List<EmployeeDTO> findByName(String name) {
         return empRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
+    }
+
+    public List<EmployeeDTO> findByEmail(String email) {
+        return empRepo.findByEmailContainingIgnoreCase(email).stream().map(this::convertToDTO).toList();
     }
 }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class EmployeeDTO {
+    private Long id;
     @NotBlank
     private String name;
     @NotBlank
@@ -23,13 +24,22 @@ public class EmployeeDTO {
     public EmployeeDTO() {
     }
 
-    public EmployeeDTO(@NotBlank String name, @NotBlank String email, @NotBlank String phone,
+    public EmployeeDTO(@NotNull Long id, @NotBlank String name, @NotBlank String email, @NotBlank String phone,
             @NotNull LocalDate birthDate, @NotNull Integer departmentId) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birthDate = birthDate;
         this.departmentId = departmentId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

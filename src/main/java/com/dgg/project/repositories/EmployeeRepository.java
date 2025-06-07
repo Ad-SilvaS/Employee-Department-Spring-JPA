@@ -8,4 +8,6 @@ import com.dgg.project.entities.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     public List<Employee> findByNameContainingIgnoreCase(String name);
+
+    public List<Employee> findByEmailContainingIgnoreCase(String email);
 }

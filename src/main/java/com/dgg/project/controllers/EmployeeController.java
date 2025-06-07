@@ -44,4 +44,9 @@ public class EmployeeController {
     public List<EmployeeDTO> findByName(@RequestParam String name) {
         return service.findByName(name);
     }
+
+    @GetMapping("/email")
+    public List<EmployeeDTO> findByEmail(@RequestParam String email) {
+        return service.findByEmail(email);
+    }
 }
