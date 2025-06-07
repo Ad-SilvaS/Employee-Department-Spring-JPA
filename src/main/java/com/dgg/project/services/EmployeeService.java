@@ -1,7 +1,6 @@
 package com.dgg.project.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,12 +49,18 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> findAll() {
-        return empRepo.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return empRepo.findAll().stream().map(this::convertToDTO).toList();
     }
 
+    @Transactional(readOnly = true)
     public EmployeeDTO findById(Long id) {
         Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
 
         return convertToDTO(emp);
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeDTO> findByName(String name) {
+        return empRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
     }
 }

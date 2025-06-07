@@ -1,7 +1,6 @@
 package com.dgg.project.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +30,6 @@ public class DepartmentService {
 
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findAll() {
-        return depRepo.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return depRepo.findAll().stream().map(this::convertToDTO).toList();
     }
 }
