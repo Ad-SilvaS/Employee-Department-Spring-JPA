@@ -65,6 +65,7 @@ public class EmployeeService {
         return empRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
     }
 
+    @Transactional(readOnly = true)
     public List<EmployeeDTO> findByEmail(String email) {
         return empRepo.findByEmailContainingIgnoreCase(email).stream().map(this::convertToDTO).toList();
     }
