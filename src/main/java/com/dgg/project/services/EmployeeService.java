@@ -69,4 +69,13 @@ public class EmployeeService {
     public List<EmployeeDTO> findByEmail(String email) {
         return empRepo.findByEmailContainingIgnoreCase(email).stream().map(this::convertToDTO).toList();
     }
+
+    @Transactional
+    public EmployeeDTO updateName(Long id, String name) {
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+
+        emp.setName(name);
+
+        return convertToDTO(emp);
+    }
 }
