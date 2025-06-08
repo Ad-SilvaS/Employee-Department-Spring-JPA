@@ -55,4 +55,13 @@ public class DepartmentService {
 
         return convertToDTO(dep);
     }
+
+    @Transactional
+    public List<DepartmentDTO> deleteDepartment(Integer id) {
+        Department dep = depRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+
+        depRepo.delete(dep);
+
+        return findAll();
+    }
 }
