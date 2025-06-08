@@ -9,6 +9,8 @@ import com.dgg.project.DTO.DepartmentDTO;
 import com.dgg.project.entities.Department;
 import com.dgg.project.repositories.DepartmentRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class DepartmentService {
     private DepartmentRepository depRepo;
@@ -18,7 +20,7 @@ public class DepartmentService {
     }
 
     private DepartmentDTO convertToDTO(Department dep) {
-        return new DepartmentDTO(dep.getName());
+        return new DepartmentDTO(dep.getId(), dep.getName());
     }
 
     @Transactional
@@ -31,5 +33,17 @@ public class DepartmentService {
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findAll() {
         return depRepo.findAll().stream().map(this::convertToDTO).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public DepartmentDTO findById(Integer id) {
+        Department dep = depRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+
+        return convertToDTO(dep);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DepartmentDTO> findByName(String name) {
+        return depRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
     }
 }
