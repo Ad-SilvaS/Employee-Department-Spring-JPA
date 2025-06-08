@@ -112,4 +112,13 @@ public class EmployeeService {
 
         return convertToDTO(emp);
     }
+
+    @Transactional
+    public List<EmployeeDTO> deleteEmployee(Long id) {
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+
+        empRepo.delete(emp);
+
+        return findAll();
+    }
 }

@@ -2,6 +2,7 @@ package com.dgg.project.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,5 +69,10 @@ public class EmployeeController {
     @PutMapping("/{id}/alter-department")
     public EmployeeDTO alterDepartment(@PathVariable Long id, @RequestParam Integer departmentId) {
         return service.alterDepartment(id, departmentId);
+    }
+
+    @DeleteMapping("/{id}")
+    public List<EmployeeDTO> deleteEmployee(@PathVariable Long id) {
+        return service.deleteEmployee(id);
     }
 }
