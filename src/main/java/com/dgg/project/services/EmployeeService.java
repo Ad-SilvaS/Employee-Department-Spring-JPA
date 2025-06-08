@@ -10,6 +10,7 @@ import com.dgg.project.entities.Department;
 import com.dgg.project.entities.Employee;
 import com.dgg.project.repositories.DepartmentRepository;
 import com.dgg.project.repositories.EmployeeRepository;
+import com.dgg.project.services.exception.NotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -52,29 +53,47 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> findAll() {
-        return empRepo.findAll().stream().map(this::convertToDTO).toList();
+        List<Employee> empList = empRepo.findAll();
+
+        if (empList.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        return empList.stream().map(this::convertToDTO).toList();
     }
 
     @Transactional(readOnly = true)
     public EmployeeDTO findById(Long id) {
-        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         return convertToDTO(emp);
     }
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> findByName(String name) {
-        return empRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
+        List<Employee> empList = empRepo.findByNameContainingIgnoreCase(name);
+
+        if (empList.isEmpty()) {
+            throw new NotFoundException(name);
+        }
+
+        return empList.stream().map(this::convertToDTO).toList();
     }
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> findByEmail(String email) {
-        return empRepo.findByEmailContainingIgnoreCase(email).stream().map(this::convertToDTO).toList();
+        List<Employee> empList = empRepo.findByEmailContainingIgnoreCase(email);
+
+        if (empList.isEmpty()) {
+            throw new NotFoundException(email);
+        }
+
+        return empList.stream().map(this::convertToDTO).toList();
     }
 
     @Transactional
     public EmployeeDTO updateName(Long id, String name) {
-        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         emp.setName(name);
 
@@ -83,7 +102,7 @@ public class EmployeeService {
 
     @Transactional
     public EmployeeDTO updateEmail(Long id, String email) {
-        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         emp.setEmail(email);
 
@@ -92,7 +111,7 @@ public class EmployeeService {
 
     @Transactional
     public EmployeeDTO updatePhone(Long id, String phone) {
-        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         emp.setPhone(phone);
 
@@ -101,10 +120,10 @@ public class EmployeeService {
 
     @Transactional
     public EmployeeDTO alterDepartment(Long id, Integer departmentId) {
-        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         Department dep = depRepo.findById(departmentId)
-                .orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+                .orElseThrow(() -> new NotFoundException(departmentId));
 
         emp.setDepartment(dep);
 
@@ -115,7 +134,7 @@ public class EmployeeService {
 
     @Transactional
     public List<EmployeeDTO> deleteEmployee(Long id) {
-        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         empRepo.delete(emp);
 

@@ -8,8 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dgg.project.DTO.DepartmentDTO;
 import com.dgg.project.entities.Department;
 import com.dgg.project.repositories.DepartmentRepository;
-
-import jakarta.persistence.EntityNotFoundException;
+import com.dgg.project.services.exception.NotFoundException;
 
 @Service
 public class DepartmentService {
@@ -32,24 +31,36 @@ public class DepartmentService {
 
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findAll() {
-        return depRepo.findAll().stream().map(this::convertToDTO).toList();
+        List<Department> depList = depRepo.findAll();
+
+        if (depList.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        return depList.stream().map(this::convertToDTO).toList();
     }
 
     @Transactional(readOnly = true)
     public DepartmentDTO findById(Integer id) {
-        Department dep = depRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+        Department dep = depRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         return convertToDTO(dep);
     }
 
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findByName(String name) {
-        return depRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
+        List<Department> depList = depRepo.findByNameContainingIgnoreCase(name);
+
+        if (depList.isEmpty()) {
+            throw new NotFoundException(name);
+        }
+
+        return depList.stream().map(this::convertToDTO).toList();
     }
 
     @Transactional
     public DepartmentDTO updateName(Integer id, String name) {
-        Department dep = depRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+        Department dep = depRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         dep.setName(name);
 
@@ -58,7 +69,7 @@ public class DepartmentService {
 
     @Transactional
     public List<DepartmentDTO> deleteDepartment(Integer id) {
-        Department dep = depRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+        Department dep = depRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         depRepo.delete(dep);
 
