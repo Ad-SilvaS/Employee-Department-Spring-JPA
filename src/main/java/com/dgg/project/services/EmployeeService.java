@@ -87,4 +87,13 @@ public class EmployeeService {
 
         return convertToDTO(emp);
     }
+
+    @Transactional
+    public EmployeeDTO updatePhone(Long id, String phone) {
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+
+        emp.setPhone(phone);
+
+        return convertToDTO(emp);
+    }
 }
