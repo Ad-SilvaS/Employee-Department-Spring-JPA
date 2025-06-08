@@ -46,4 +46,13 @@ public class DepartmentService {
     public List<DepartmentDTO> findByName(String name) {
         return depRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
     }
+
+    @Transactional
+    public DepartmentDTO updateName(Integer id, String name) {
+        Department dep = depRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+
+        dep.setName(name);
+
+        return convertToDTO(dep);
+    }
 }
