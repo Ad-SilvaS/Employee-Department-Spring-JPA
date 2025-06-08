@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dgg.project.DTO.EmployeeDTO;
-import com.dgg.project.entities.Employee;
 import com.dgg.project.services.EmployeeService;
 
 import jakarta.validation.Valid;
@@ -27,7 +26,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee newEmployee(@Valid @RequestBody EmployeeDTO empDTO) {
+    public EmployeeDTO newEmployee(@Valid @RequestBody EmployeeDTO empDTO) {
         return service.newEmployee(empDTO);
     }
 
@@ -64,5 +63,10 @@ public class EmployeeController {
     @PutMapping("/{id}/update-phone")
     public EmployeeDTO updatePhone(@PathVariable Long id, @RequestParam String phone) {
         return service.updatePhone(id, phone);
+    }
+
+    @PutMapping("/{id}/alter-department")
+    public EmployeeDTO alterDepartment(@PathVariable Long id, @RequestParam Integer departmentId) {
+        return service.alterDepartment(id, departmentId);
     }
 }

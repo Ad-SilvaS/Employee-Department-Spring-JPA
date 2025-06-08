@@ -34,7 +34,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee newEmployee(EmployeeDTO empDTO) {
+    public EmployeeDTO newEmployee(EmployeeDTO empDTO) {
         Department department = depRepo.findById(empDTO.getDepartmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
 
@@ -45,7 +45,9 @@ public class EmployeeService {
                 empDTO.getBirthDate(),
                 department);
 
-        return empRepo.save(emp);
+        Employee newEmp = empRepo.save(emp);
+
+        return convertToDTO(newEmp);
     }
 
     @Transactional(readOnly = true)
@@ -93,6 +95,20 @@ public class EmployeeService {
         Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
 
         emp.setPhone(phone);
+
+        return convertToDTO(emp);
+    }
+
+    @Transactional
+    public EmployeeDTO alterDepartment(Long id, Integer departmentId) {
+        Employee emp = empRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
+
+        Department dep = depRepo.findById(departmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
+
+        emp.setDepartment(dep);
+
+        empRepo.save(emp);
 
         return convertToDTO(emp);
     }
