@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class EmployeeDTO {
+public class EmployeeInputDTO {
     private Long id;
     @NotBlank
     private String name;
@@ -18,20 +18,20 @@ public class EmployeeDTO {
     @NotNull
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
-    @NotBlank
-    private String departmentName;
+    @NotNull
+    private Integer departmentId;
 
-    public EmployeeDTO() {
+    public EmployeeInputDTO() {
     }
 
-    public EmployeeDTO(@NotNull Long id, @NotBlank String name, @NotBlank String email, @NotBlank String phone,
-            @NotNull LocalDate birthDate, @NotNull String departmentName) {
+    public EmployeeInputDTO(@NotNull Long id, @NotBlank String name, @NotBlank String email, @NotBlank String phone,
+            @NotNull LocalDate birthDate, @NotNull Integer departmentId) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birthDate = birthDate;
-        this.departmentName = departmentName;
+        this.departmentId = departmentId;
     }
 
     public Long getId() {
@@ -74,11 +74,11 @@ public class EmployeeDTO {
         this.birthDate = birthDate;
     }
 
-    public String getdepartmentName() {
-        return departmentName;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setdepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 }

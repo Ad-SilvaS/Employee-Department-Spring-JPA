@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dgg.project.DTO.EmployeeDTO;
+import com.dgg.project.DTO.EmployeeInputDTO;
 import com.dgg.project.entities.Department;
 import com.dgg.project.entities.Employee;
 import com.dgg.project.repositories.DepartmentRepository;
@@ -31,11 +32,11 @@ public class EmployeeService {
                 emp.getEmail(),
                 emp.getPhone(),
                 emp.getBirthDate(),
-                emp.getDepartment().getId());
+                emp.getDepartment().getName());
     }
 
     @Transactional
-    public EmployeeDTO newEmployee(EmployeeDTO empDTO) {
+    public EmployeeDTO newEmployee(EmployeeInputDTO empDTO) {
         Department department = depRepo.findById(empDTO.getDepartmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Department Not Found"));
 

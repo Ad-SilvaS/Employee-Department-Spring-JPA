@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dgg.project.DTO.EmployeeDTO;
+import com.dgg.project.DTO.EmployeeInputDTO;
 import com.dgg.project.services.EmployeeService;
 
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeDTO newEmployee(@Valid @RequestBody EmployeeDTO empDTO) {
+    public EmployeeDTO newEmployee(@Valid @RequestBody EmployeeInputDTO empDTO) {
         return service.newEmployee(empDTO);
     }
 
