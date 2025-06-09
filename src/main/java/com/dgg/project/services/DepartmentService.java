@@ -23,10 +23,12 @@ public class DepartmentService {
     }
 
     @Transactional
-    public Department newDepartment(DepartmentDTO depDTO) {
+    public DepartmentDTO newDepartment(DepartmentDTO depDTO) {
         Department dep = new Department(depDTO.getName());
 
-        return depRepo.save(dep);
+        depRepo.save(dep);
+
+        return convertToDTO(dep);
     }
 
     @Transactional(readOnly = true)

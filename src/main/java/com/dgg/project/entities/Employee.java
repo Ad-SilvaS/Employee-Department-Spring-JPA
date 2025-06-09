@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,8 +23,9 @@ public class Employee {
     @NotBlank
     private String name;
     @NotBlank
+    @Email
     private String email;
-    @NotNull
+    @NotBlank
     private String phone;
     @NotNull
     @JsonFormat(pattern = "dd-MM-yyyy")

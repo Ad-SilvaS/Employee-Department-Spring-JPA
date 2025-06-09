@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dgg.project.DTO.DepartmentDTO;
-import com.dgg.project.entities.Department;
 import com.dgg.project.services.DepartmentService;
 
 import jakarta.validation.Valid;
@@ -28,7 +27,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public Department newDepartment(@Valid @RequestBody DepartmentDTO depDTO) {
+    public DepartmentDTO newDepartment(@Valid @RequestBody DepartmentDTO depDTO) {
         return service.newDepartment(depDTO);
     }
 
