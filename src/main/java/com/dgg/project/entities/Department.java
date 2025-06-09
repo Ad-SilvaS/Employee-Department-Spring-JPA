@@ -46,6 +46,10 @@ public class Department {
         this.name = name;
     }
 
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

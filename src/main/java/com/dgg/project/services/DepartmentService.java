@@ -2,12 +2,14 @@ package com.dgg.project.services;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dgg.project.DTO.DepartmentDTO;
 import com.dgg.project.entities.Department;
 import com.dgg.project.repositories.DepartmentRepository;
+import com.dgg.project.services.exception.DatabaseException;
 import com.dgg.project.services.exception.NotFoundException;
 
 @Service
@@ -71,10 +73,19 @@ public class DepartmentService {
 
     @Transactional
     public List<DepartmentDTO> deleteDepartment(Integer id) {
-        Department dep = depRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
+        try {
+            Department dep = depRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
-        depRepo.delete(dep);
+            if (!dep.getEmployees().isEmpty()) {
+                throw new DatabaseException("Cannot delete department as there are employees linked to it");
+            }
 
-        return findAll();
+            depRepo.delete(dep);
+
+            return findAll();
+
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Cannot delete department due to integrity constraints");
+        }
     }
 }
